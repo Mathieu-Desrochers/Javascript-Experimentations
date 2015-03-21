@@ -65,7 +65,83 @@
               </fieldset>
             </div>
           </div>
-          <div style="margin-top:10px;">
+          <div class="row-fluid">
+            <div class="span6">
+              <fieldset>
+                <h4>$shipping-addresses</h4>
+                <div data-bind="visible:!isShippingAddressFormVisible()">
+                  <div class="row-fluid">
+                    <div class="span9">
+                      <div class="row-fluid">
+                        <div class="span4"><strong>$street</strong></div>
+                        <div class="span4"><strong>$city</strong></div>
+                        <div class="span4"><strong>$state</strong></div>
+                      </div>
+                    </div>
+                    <div class="span3"></div>
+                  </div>
+                  <div class="row-fluid">
+                    <div class="span9">
+                      <div data-bind="foreach:shippingAddresses">
+                        <div class="row-fluid" data-bind="click:$parent.setSelectedShippingAddressID.bind($data,shippingAddressID()),css:{'row-selected':isSelected(),'row-unselected':!isSelected()}" style="border-color:#808080;border-width:2px;">
+                          <div class="span4" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:street"></span></div>
+                          <div class="span4" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:city"></span></div>
+                          <div class="span4" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:state"></span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="span3">
+                      <div style="float:right;margin-right:10px;width:100px;">
+                        <button class="btn btn-block" data-bind="click:addShippingAddress" type="submit">
+                          $add-shipping-address
+                        </button>
+                        <button class="btn btn-block" data-bind="click:modifyShippingAddress" type="submit">
+                          $modify-shipping-address
+                        </button>
+                        <button class="btn btn-block" data-bind="click:deleteShippingAddress" type="submit">
+                          $delete-shipping-address
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div data-bind="visible:isShippingAddressFormVisible()" style="display:none;">
+                  <div class="control-group" data-bind="css:{error:!editedShippingAddress.isStreetValid()}" style="margin-bottom:0px;">
+                    <label class="control-label" for="inputStreet">
+                      $street
+                    </label>
+                    <input data-bind="value:editedShippingAddress.street" id="inputStreet" type="text"></input>
+                    <span class="help-inline" data-bind="visible:!editedShippingAddress.isStreetValid()" style="display:none; margin-top:-10px;">
+                      $invalid-street
+                    </span>
+                  </div>
+                  <div class="control-group" data-bind="css:{error:!editedShippingAddress.isCityValid()}" style="margin-bottom:0px;">
+                    <label class="control-label" for="inputLevelCity">
+                      $city
+                    </label>
+                    <input data-bind="value:editedShippingAddress.city" id="inputLevelCity" type="text"></input>
+                    <span class="help-inline" data-bind="visible:!editedShippingAddress.isCityValid()" style="display:none; margin-top:-10px;">
+                      $invalid-city
+                    </span>
+                  </div>
+                  <div class="control-group" data-bind="css:{error:!editedShippingAddress.isStateValid()}" style="margin-bottom:0px;">
+                    <label class="control-label" for="inputLevelState">
+                      $state
+                    </label>
+                    <input data-bind="value:editedShippingAddress.state" id="inputLevelState" type="text"></input>
+                    <span class="help-inline" data-bind="visible:!editedShippingAddress.isStateValid()" style="display:none; margin-top:-10px;">
+                      $invalid-state
+                    </span>
+                  </div>
+                  <div style="margin-top:10px;">
+                    <button class="btn" data-bind="click:editedShippingAddress.submit,text:editedShippingAddress.shippingAddressID()===null?'$add':'$modify'" type="submit"></button>
+                    <button class="btn" data-bind="click:editedShippingAddress.cancel" type="submit">$cancel</button>
+                  </div>
+                <div>
+              </fieldset>
+            </div>
+          </div>
+          <div data-bind="visible:!isShippingAddressFormVisible()" style="margin-top:10px;">
             <button class="btn" data-bind="click:submit" type="submit">$save</button>
             <button class="btn" data-bind="click:cancel" type="submit">$cancel</button>
           </div>

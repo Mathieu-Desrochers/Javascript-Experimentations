@@ -5,5 +5,14 @@ $last-name	Last name
 $invalid-last-name	Please enter a value.
 $birthdate	Birthdate
 $invalid-birthdate	Please enter a value.
+$shipping-addresses	Shipping addresses
+$street	Street
+$city	City
+$state	State
+$add-shipping-address	Add
+$modify-shipping-address	Modify
+$delete-shipping-address	Delete
+$add	Add
+$modify	Modify
 $save	Save
 $cancel	Cancel

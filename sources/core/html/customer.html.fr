@@ -5,5 +5,14 @@ $last-name	Nom
 $invalid-last-name	Veuillez entrer une valeur.
 $birthdate	Date de naissance
 $invalid-birthdate	Veuillez entrer une valeur.
+$shipping-addresses	Adresses de livraison
+$street	Rue
+$city	Ville
+$state	Province
+$add-shipping-address	Ajouter
+$modify-shipping-address	Modifier
+$delete-shipping-address	Supprimer
+$add	Ajouter
+$modify	Modifier
 $save	Sauvegarder
 $cancel	Annuler
