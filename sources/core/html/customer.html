@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="$lang">
+  <head>
+    <meta charset="utf-8">
+    <title>$title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="../css/datepicker.css" rel="stylesheet" media="screen">
+    <style type="text/css">
+      .row-selected {
+        background-color: #F8F8F8;
+        border-style: dotted;
+        margin-left: -5px;
+        padding: 0px 0px 0px 5px;
+      }
+      .row-unselected {
+        background-color: #FFFFFF;
+        border-style: none;
+        margin-left: 0px;
+        padding: 2px;
+      }
+    </style>
+  </head>
+  <body style="color:#505050;">
+    <div class="container-fluid">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <a class="brand" href="index.html">Javascript Experimentations</a>
+        </div>
+      </div>
+      <div style="margin-left:10px;">
+        <h3>$header</h3>
+        <form>
+          <div class="row-fluid">
+            <div class="span4">
+              <fieldset>
+                <h4>$identification-fieldset</h4>
+                <div class="control-group" data-bind="css:{error:!isFirstNameValid()}" style="margin-bottom:0px;">
+                  <label class="control-label" for="inputFirstName">
+                    $first-name
+                  </label>
+                  <input class="input-block-level" data-bind="value:firstName" id="inputFirstName" type="text"></input>
+                  <span class="help-inline" data-bind="visible:!isFirstNameValid()" style="display:none;margin-top:-4px;padding-left:0px;padding-bottom:10px;">
+                    $invalid-first-name
+                  </span>
+                </div>
+                <div class="control-group" data-bind="css:{error:!isLastNameValid()}" style="margin-bottom:0px;">
+                  <label class="control-label" for="inputLastName">
+                    $last-name
+                  </label>
+                  <input class="input-block-level" data-bind="value:lastName" id="inputLastName" type="text"></input>
+                  <span class="help-inline" data-bind="visible:!isLastNameValid()" style="display:none;margin-top:-4px;padding-left:0px;padding-bottom:10px;">
+                    $invalid-last-name
+                  </span>
+                </div>
+                <div class="control-group" data-bind="css:{error:!isBirthdateValid()}" style="margin-bottom:0px;">
+                  <label class="control-label" for="inputBirthdate">
+                    $birthdate
+                  </label>
+                  <input class="input-block-level" data-bind="value:birthdate" data-date-autoclose="true" data-date-language="$lang" id="inputBirthdate" type="text"></input>
+                  <span class="help-inline" data-bind="visible:!isBirthdateValid()" style="display:none;margin-top:-4px;padding-left:0px;padding-bottom:10px;">
+                    $invalid-birthdate
+                  </span>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <button class="btn" data-bind="click:submit" type="submit">$save</button>
+            <button class="btn" data-bind="click:cancel" type="submit">$cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type='text/javascript' src="../js/underscore.js"></script>
+    <script type='text/javascript' src='../js/uri.js'></script>
+    <script type='text/javascript' src="../js/jquery-1.9.1.js"></script>
+    <script type='text/javascript' src="../js/json2.js"></script>
+    <script type='text/javascript' src="../js/bootstrap.js"></script>
+    <script type='text/javascript' src="../js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="../js/bootstrap-datepicker.$lang.js"></script>
+    <script type='text/javascript' src='../js/knockout-2.2.1.js'></script>
+    <script type='text/javascript' src='../js/alerts.js'></script>
+    <script type='text/javascript' src='../js/validation.js'></script>
+    <script type='text/javascript' src='../js/customer.js'></script>
+    <script type='text/javascript' src='../js/$page-name.js'></script>
+    <script type='text/javascript'>
+
+      // build the Customer view model
+      var customerViewModel = customerModule.makeCustomerViewModel();
+      customerModule.extendCustomerViewModel(customerViewModel);
+
+      // load the page
+      var queryString = URI.parseQuery(window.location.search);
+      customerViewModel.loadPage(queryString);
+
+      // apply the bindings
+      ko.applyBindings(customerViewModel);
+
+      // monitor the navigation
+      customerViewModel.navigationUrl.subscribe(function (navigationUrl) {
+        window.location.assign(navigationUrl);
+      });
+
+      // activate the datepickers
+      $("#inputBirthdate").datepicker({
+        format: "yyyy-mm-dd"
+      });
+
+      $('#inputBirthdate').datepicker().on("show", function (e) {
+        $('#inputBirthdate').datepicker("update");
+      });
+
+    </script>
+  </body>
+</html>

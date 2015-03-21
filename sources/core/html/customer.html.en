@@ -1,0 +1,9 @@
+$identification-fieldset	Identification
+$first-name	First name
+$invalid-first-name	Please enter a value.
+$last-name	Last name
+$invalid-last-name	Please enter a value.
+$birthdate	Birthdate
+$invalid-birthdate	Please enter a value.
+$save	Save
+$cancel	Cancel

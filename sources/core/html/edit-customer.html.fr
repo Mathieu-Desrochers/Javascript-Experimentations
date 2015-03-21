@@ -1,0 +1,2 @@
+$title	Javascript Experimentations - Modifier un client
+$header	Modifier un client

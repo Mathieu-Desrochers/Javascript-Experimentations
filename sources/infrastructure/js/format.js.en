@@ -1,0 +1,21 @@
+
+// formats a day of week
+function formatDayOfWeek(dayOfWeek) {
+
+  if (!dayOfWeek) {
+    return "";
+  }
+
+  return dayOfWeek;
+
+}
+
+// the regular expression for money 
+var formatMoneyRegex = /^[0-9]{1,6}\.[0-9]{2}$/;
+
+// formats a number of cents
+function formatMoney(numberOfCents) {
+
+  return formatMoneyInternal(numberOfCents, ".");
+
+}

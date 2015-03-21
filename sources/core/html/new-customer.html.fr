@@ -1,0 +1,2 @@
+$title	Javascript Experimentations - Nouveau client
+$header	Nouveau client
