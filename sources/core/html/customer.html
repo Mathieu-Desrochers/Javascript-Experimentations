@@ -85,9 +85,9 @@
                   <div class="row-fluid">
                     <div class="span9">
                       <div class="row-fluid">
-                        <div class="span4"><strong>$street</strong></div>
-                        <div class="span4"><strong>$city</strong></div>
-                        <div class="span4"><strong>$state</strong></div>
+                        <div class="span6"><strong>$street</strong></div>
+                        <div class="span3"><strong>$city</strong></div>
+                        <div class="span3"><strong>$state</strong></div>
                       </div>
                     </div>
                     <div class="span3"></div>
@@ -96,9 +96,9 @@
                     <div class="span9">
                       <div data-bind="foreach:shippingAddresses">
                         <div class="row-fluid" data-bind="click:$parent.setSelectedShippingAddressID.bind($data,shippingAddressID()),css:{'row-selected':isSelected(),'row-unselected':!isSelected()}" style="border-color:#808080;border-width:2px;">
-                          <div class="span4" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:street"></span></div>
-                          <div class="span4" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:city"></span></div>
-                          <div class="span4" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:state"></span></div>
+                          <div class="span6" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:street"></span></div>
+                          <div class="span3" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:city"></span></div>
+                          <div class="span3" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:state"></span></div>
                         </div>
                       </div>
                     </div>
