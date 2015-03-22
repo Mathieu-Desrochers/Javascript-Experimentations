@@ -26,6 +26,17 @@ customerModule.extendCustomerViewModel = function (customerViewModel) {
       self.lastName(response["last-name"]);
       self.birthdate(response["birthdate"]);
 
+      // build the ShippingAddress view models
+      _.each(response["shipping-addresses"], function (shippingAddress) {
+        self.shippingAddresses.push(
+          customerModule.makeShippingAddressViewModel(
+            self,
+            shippingAddress["shipping-address-id"],
+            shippingAddress["street"],
+            shippingAddress["city"],
+            shippingAddress["state"]));
+      });
+
     });
 
   };
@@ -33,8 +44,21 @@ customerModule.extendCustomerViewModel = function (customerViewModel) {
   // creates a new customer
   self.submit = function () {
 
+    var allIsGood = true;
+
     // make sure the view model is valid
     if (performValidations(self) === false) {
+      allIsGood = false;
+    }
+
+    // make sure there is at least one shipping address
+    if (self.shippingAddresses().length === 0) {
+      self.isNoShippingAddressesAlertDisplayed(true);
+      allIsGood = false;
+    }
+
+    // make sure all is good
+    if (!allIsGood) {
       return;
     }
 

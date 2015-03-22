@@ -32,7 +32,7 @@
         <h3>$header</h3>
         <form>
           <div class="row-fluid">
-            <div class="span4">
+            <div class="span3">
               <fieldset>
                 <h4>$identification-fieldset</h4>
                 <div class="control-group" data-bind="css:{error:!isFirstNameValid()}" style="margin-bottom:0px;">
@@ -69,6 +69,18 @@
             <div class="span6">
               <fieldset>
                 <h4>$shipping-addresses</h4>
+                <div class="alert alert-error" data-bind="visible:areShippingAddressesAlertsDisplayed" style="margin-bottom:10px;">
+                  <button class="close" data-bind="click:hideShippingAddressesAlerts" type="button">&times;</button>
+                  <div data-bind="visible:isNoSelectedShippingAddressAlertDisplayed">
+                    <strong>$alert-warning</strong> $alert-no-selected-shipping-address
+                  </div>
+                  <div data-bind="visible:isNoShippingAddressesAlertDisplayed">
+                    <strong>$alert-warning</strong> $alert-no-shipping-addresses
+                  </div>
+                  <div data-bind="visible:isTooManyShippingAddressesAlertDisplayed">
+                    <strong>$alert-warning</strong> $alert-too-many-shipping-addresses
+                  </div>
+                </div>
                 <div data-bind="visible:!isShippingAddressFormVisible()">
                   <div class="row-fluid">
                     <div class="span9">

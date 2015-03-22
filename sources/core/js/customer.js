@@ -2,7 +2,7 @@
 var customerModule = customerModule || {};
 
 // builds a ShippingAddress view model
-customerModule.makeShippingAddressViewModel = function (shippingAddressID, street, city, state) {
+customerModule.makeShippingAddressViewModel = function (parentViewModel, shippingAddressID, street, city, state) {
 
   function shippingAddressViewModelConstructor() {
 
@@ -14,10 +14,73 @@ customerModule.makeShippingAddressViewModel = function (shippingAddressID, stree
     self.city = ko.observable(city);
     self.state = ko.observable(state);
 
+    // the states
+    self.isSelected = ko.observable(false);
+
     // the property validations
     registerStringValidation(self, "street", false);
     registerStringValidation(self, "city", false);
     registerStringValidation(self, "state", false);
+
+    // subscribe to the change of selected shipping address
+    parentViewModel.selectedShippingAddressID.subscribe(function (newShippingAddressID) {
+      self.isSelected(newShippingAddressID === self.shippingAddressID());
+    });
+
+    // saves the shipping address
+    self.submit = function () {
+
+      // make sure the edited shipping address is valid
+      var editedShippingAddress = parentViewModel.editedShippingAddress;
+      if (performValidations(editedShippingAddress) === false) {
+        return;
+      }
+
+      // check if we are editing a new shipping address
+      if (editedShippingAddress.shippingAddressID() === null) {
+
+        // calculate the next unused negative ID
+        var nextUnusedNegativeID = -1;
+        if (_.any(parentViewModel.shippingAddresses(), function (shippingAddress) { return shippingAddress.shippingAddressID() < 0 })) {
+          nextUnusedNegativeID = _.min(_.map(parentViewModel.shippingAddresses(), function (shippingAddress) { return shippingAddress.shippingAddressID(); })) - 1;
+        }
+
+        // build a new shipping address based
+        // on the edited shipping address
+        var newShippingAddress = customerModule.makeShippingAddressViewModel(
+          parentViewModel,
+          nextUnusedNegativeID,
+          editedShippingAddress.street(),
+          editedShippingAddress.city(),
+          editedShippingAddress.state());
+
+        // add the new shipping address
+        parentViewModel.shippingAddresses.push(newShippingAddress);
+
+      } else {
+
+        // find the existing shipping address
+        var existingShippingAddress = _.find(parentViewModel.shippingAddresses(), function (shippingAddress) {
+          return shippingAddress.shippingAddressID() === editedShippingAddress.shippingAddressID();
+        });
+
+        // update the existing shipping address based
+        // on the edited shipping address
+        existingShippingAddress.street(editedShippingAddress.street());
+        existingShippingAddress.city(editedShippingAddress.city());
+        existingShippingAddress.state(editedShippingAddress.state());
+
+      }
+
+      // hide the shipping address form
+      parentViewModel.isShippingAddressFormVisible(false);
+
+    };
+
+    // cancels the shipping address
+    self.cancel = function () {
+      parentViewModel.isShippingAddressFormVisible(false);
+    };
 
   }
 
@@ -46,13 +109,23 @@ customerModule.makeCustomerViewModel = function() {
     // the child view models
     self.shippingAddresses = ko.observableArray();
 
+    // the alerts
+    registerAlerts(
+      self,
+      "ShippingAddressesAlerts",
+      [
+        "NoSelectedShippingAddressAlert",
+        "NoShippingAddressesAlert",
+        "TooManyShippingAddressesAlert"
+      ]);
+
     // the property validations
     registerStringValidation(self, "firstName", false);
     registerStringValidation(self, "lastName", false);
     registerStringValidation(self, "birthdate", false);
 
     // the edited shipping address view model
-    self.editedShippingAddress = customerModule.makeShippingAddressViewModel(null, "", "", "");
+    self.editedShippingAddress = customerModule.makeShippingAddressViewModel(self, null, "", "", "");
 
     // sets the selected shipping address id
     self.setSelectedShippingAddressID = function (shippingAddressID) {
@@ -75,7 +148,7 @@ customerModule.makeCustomerViewModel = function() {
 
       // make sure there is at most 10 shipping addresses
       if (self.shippingAddresses().length === 10) {
-        self.isTooManyShippingAddressesDispayed(true);
+        self.isTooManyShippingAddressesAlertDisplayed(true);
         return;
       }
 
@@ -111,10 +184,10 @@ customerModule.makeCustomerViewModel = function() {
       });
 
       // assign its values to the shipping address
-      self.editedCourseTypeLevel.shippingAddressID(selectedCourseTypeLevel.shippingAddressID());
-      self.editedCourseTypeLevel.street(selectedCourseTypeLevel.street());
-      self.editedCourseTypeLevel.city(selectedCourseTypeLevel.city());
-      self.editedCourseTypeLevel.state(selectedCourseTypeLevel.state());
+      self.editedShippingAddress.shippingAddressID(selectedShippingAddress.shippingAddressID());
+      self.editedShippingAddress.street(selectedShippingAddress.street());
+      self.editedShippingAddress.city(selectedShippingAddress.city());
+      self.editedShippingAddress.state(selectedShippingAddress.state());
 
       // disable the edited shipping address validations
       disableValidations(self.editedShippingAddress);

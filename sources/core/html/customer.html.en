@@ -6,9 +6,16 @@ $invalid-last-name	Please enter a value.
 $birthdate	Birthdate
 $invalid-birthdate	Please enter a value.
 $shipping-addresses	Shipping addresses
+$alert-warning	Warning!
+$alert-no-selected-shipping-address	Please select an address first.
+$alert-no-shipping-addresses	Please add at least one address.
+$alert-too-many-shipping-addresses	The maximum number of addresses has been reached.
 $street	Street
+$invalid-street	Please enter a value.
 $city	City
+$invalid-city	Please enter a value.
 $state	State
+$invalid-state	Please enter a value.
 $add-shipping-address	Add
 $modify-shipping-address	Modify
 $delete-shipping-address	Delete
