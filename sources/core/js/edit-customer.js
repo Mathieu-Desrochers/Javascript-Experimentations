@@ -62,7 +62,13 @@ customerModule.extendCustomerViewModel = function (customerViewModel) {
       return;
     }
 
-    // post the customer
+    // new shipping addresses are tracked using a negative id
+    // but the server will identity them by their null id
+    var nullifyNegativeShippingAddressID = function (shippingAddressID) {
+      return shippingAddressID > 0 ? shippingAddressID : null;
+    };
+
+    // put the customer
     $.ajax({
       type: "PUT",
       url: "../api/customers",
@@ -71,7 +77,15 @@ customerModule.extendCustomerViewModel = function (customerViewModel) {
         "customer-id": self.customerID(),
         "first-name": self.firstName(),
         "last-name": self.lastName(),
-        "birthdate": self.birthdate()
+        "birthdate": self.birthdate(),
+        "shipping-addresses": _.map(self.shippingAddresses(), function (shippingAddress) {
+          return {
+            "shipping-address-id": nullifyNegativeShippingAddressID(shippingAddress.shippingAddressID()),
+            "street": shippingAddress.street(),
+            "city": shippingAddress.city(),
+            "state": shippingAddress.state()
+          };
+        })
       })
     })
     .success(function (response) {
