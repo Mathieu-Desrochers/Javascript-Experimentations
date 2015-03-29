@@ -1,0 +1,10 @@
+$title	Javascript Experimentations - Customers
+$header	Customers
+$alert-warning	Warning!
+$alert-no-customer-selected	Please select a customer first.
+$first-name	First name
+$last-name	Last name
+$customer-buttons-width	100px
+$add-customer	Add
+$modify-customer	Modify
+$delete-customer	Delete

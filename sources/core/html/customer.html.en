@@ -5,7 +5,7 @@ $last-name	Last name
 $invalid-last-name	Please enter a value.
 $birthdate	Birthdate
 $invalid-birthdate	Please enter a value.
-$shipping-addresses	Shipping addresses
+$shipping-addresses-list	Shipping addresses
 $alert-warning	Warning!
 $alert-no-selected-shipping-address	Please select an address first.
 $alert-no-shipping-addresses	Please add at least one address.
@@ -16,6 +16,7 @@ $city	City
 $invalid-city	Please enter a value.
 $state	State
 $invalid-state	Please enter a value.
+$shipping-address-buttons-width	100px
 $add-shipping-address	Add
 $modify-shipping-address	Modify
 $delete-shipping-address	Delete

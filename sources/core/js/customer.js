@@ -225,8 +225,8 @@ customerModule.makeCustomerViewModel = function() {
     // cancels the customer
     self.cancel = function () {
 
-      // display the index page
-      self.navigationUrl("index.html");
+      // display the customers page
+      self.navigationUrl("customers.html");
 
     };
 

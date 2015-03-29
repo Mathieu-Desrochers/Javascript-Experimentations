@@ -1,0 +1,10 @@
+$title	Javascript Experimentations - Liste des clients
+$header	Liste des clients
+$alert-warning	Attention !
+$alert-no-customer-selected	Veuillez d'abord sélectionner un client.
+$first-name	Prénom
+$last-name	Nom de famille
+$customer-buttons-width	120px
+$add-customer	Ajouter
+$modify-customer	Modifier
+$delete-customer	Supprimer

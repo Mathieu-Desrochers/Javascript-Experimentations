@@ -3,10 +3,19 @@ make : core infrastructure
 
 core : html js
 
-html : build/en/edit-customer.html \
+html : build/en/customers.html \
+       build/en/edit-customer.html \
        build/en/new-customer.html \
+       build/fr/customers.html \
        build/fr/edit-customer.html \
        build/fr/new-customer.html
+
+build/en/customers.html : sources/core/html/customers.html \
+                          sources/core/html/customers.html.en
+	cp sources/core/html/customers.html build/en/customers.html
+	sed -i 's/$$lang/en/' build/en/customers.html
+	sed -i 's/$$page-name/customers/' build/en/customers.html
+	while read variable value; do sed -i "s/$$variable/$$value/" build/en/customers.html; done < sources/core/html/customers.html.en
 
 build/en/edit-customer.html : sources/core/html/customer.html \
                               sources/core/html/customer.html.en \
@@ -25,6 +34,13 @@ build/en/new-customer.html : sources/core/html/customer.html \
 	sed -i 's/$$page-name/new-customer/' build/en/new-customer.html
 	while read variable value; do sed -i "s/$$variable/$$value/" build/en/new-customer.html; done < sources/core/html/customer.html.en
 	while read variable value; do sed -i "s/$$variable/$$value/" build/en/new-customer.html; done < sources/core/html/new-customer.html.en
+
+build/fr/customers.html : sources/core/html/customers.html \
+                          sources/core/html/customers.html.fr
+	cp sources/core/html/customers.html build/fr/customers.html
+	sed -i 's/$$lang/fr/' build/fr/customers.html
+	sed -i 's/$$page-name/customers/' build/fr/customers.html
+	while read variable value; do sed -i "s/$$variable/$$value/" build/fr/customers.html; done < sources/core/html/customers.html.fr
 
 build/fr/edit-customer.html : sources/core/html/customer.html \
                               sources/core/html/customer.html.fr \
@@ -45,11 +61,15 @@ build/fr/new-customer.html : sources/core/html/customer.html \
 	while read variable value; do sed -i "s/$$variable/$$value/" build/fr/new-customer.html; done < sources/core/html/new-customer.html.fr
 
 js: build/js/customer.js \
+    build/js/customers.js \
     build/js/edit-customer.js \
     build/js/new-customer.js
 
 build/js/customer.js : sources/core/js/customer.js
 	cp sources/core/js/customer.js build/js/
+
+build/js/customers.js : sources/core/js/customers.js
+	cp sources/core/js/customers.js build/js/
 
 build/js/edit-customer.js : sources/core/js/edit-customer.js
 	cp sources/core/js/edit-customer.js build/js/

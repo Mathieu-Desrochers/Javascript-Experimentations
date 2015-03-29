@@ -52,8 +52,8 @@ customerModule.extendCustomerViewModel = function (customerViewModel) {
     })
     .success(function (response) {
 
-      // display the index page
-      self.navigationUrl("index.html");
+      // display the customers page
+      self.navigationUrl("customers.html");
 
     });
 
