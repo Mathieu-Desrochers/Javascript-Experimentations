@@ -98,3 +98,6 @@ customerModule.extendCustomerViewModel = function (customerViewModel) {
   };
 
 };
+
+// extends a EditCustomer view model
+customerModule.extendEditCustomerViewModel = customerModule.extendCustomerViewModel;

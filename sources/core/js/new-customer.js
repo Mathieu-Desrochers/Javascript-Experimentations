@@ -7,9 +7,7 @@ customerModule.extendCustomerViewModel = function (customerViewModel) {
   var self = customerViewModel;
 
   // loads the page
-  self.loadPage = function (queryString) {
-
-  };
+  self.loadPage = function (queryString) { };
 
   // creates a new customer
   self.submit = function () {
@@ -60,3 +58,6 @@ customerModule.extendCustomerViewModel = function (customerViewModel) {
   };
 
 };
+
+// extends a NewCustomer view model
+customerModule.extendNewCustomerViewModel = customerModule.extendCustomerViewModel;

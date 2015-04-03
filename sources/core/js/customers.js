@@ -49,8 +49,8 @@ customersModule.makeCustomersViewModel = function () {
         "NoCustomerSelectedAlert"
       ]);
 
-    // loads the customers
-    self.loadCustomers = function () {
+    // loads the page
+    self.loadPage = function () {
 
       // get the customers
       $.ajax({

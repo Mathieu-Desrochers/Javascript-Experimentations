@@ -88,8 +88,8 @@
       // apply the bindings
       ko.applyBindings(customersViewModel);
 
-      // load the customers
-      customersViewModel.loadCustomers();
+      // load the page
+      customersViewModel.loadPage();
 
       // monitor the navigation
       customersViewModel.navigationUrl.subscribe(function (navigationUrl) {
