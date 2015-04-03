@@ -32,7 +32,7 @@
         <h3>$header</h3>
         <form>
           <div class="row-fluid">
-            <div class="span6">
+            <div class="span4">
               <fieldset>
                 <h4>$identification-fieldset</h4>
                 <div class="control-group" data-bind="css:{error:!isFirstNameValid()}" style="margin-bottom:0px;">
@@ -66,24 +66,28 @@
             </div>
           </div>
           <div class="row-fluid" style="margin-top:3px;">
-            <div class="span9">
+            <div class="span12">
               <fieldset>
                 <h4>$shipping-addresses-list</h4>
-                <div class="alert alert-error" data-bind="visible:areShippingAddressesAlertsDisplayed" style="margin-bottom:10px;">
-                  <button class="close" data-bind="click:hideShippingAddressesAlerts" type="button">&times;</button>
-                  <div data-bind="visible:isNoSelectedShippingAddressAlertDisplayed">
-                    <strong>$alert-warning</strong> $alert-no-selected-shipping-address
-                  </div>
-                  <div data-bind="visible:isNoShippingAddressesAlertDisplayed">
-                    <strong>$alert-warning</strong> $alert-no-shipping-addresses
-                  </div>
-                  <div data-bind="visible:isTooManyShippingAddressesAlertDisplayed">
-                    <strong>$alert-warning</strong> $alert-too-many-shipping-addresses
+                <div class="row-fluid">
+                  <div class="span9">
+                    <div class="alert alert-error" data-bind="visible:areShippingAddressesAlertsDisplayed" style="margin-bottom:10px;">
+                      <button class="close" data-bind="click:hideShippingAddressesAlerts" type="button">&times;</button>
+                      <div data-bind="visible:isNoSelectedShippingAddressAlertDisplayed">
+                        <strong>$alert-warning</strong> $alert-no-selected-shipping-address
+                      </div>
+                      <div data-bind="visible:isNoShippingAddressesAlertDisplayed">
+                        <strong>$alert-warning</strong> $alert-no-shipping-addresses
+                      </div>
+                      <div data-bind="visible:isTooManyShippingAddressesAlertDisplayed">
+                        <strong>$alert-warning</strong> $alert-too-many-shipping-addresses
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div data-bind="visible:!isShippingAddressFormVisible()">
                   <div class="row-fluid">
-                    <div class="span9">
+                    <div class="span6">
                       <div class="row-fluid">
                         <div class="span4"><strong>$street</strong></div>
                         <div class="span4"><strong>$city</strong></div>
@@ -92,7 +96,7 @@
                     </div>
                   </div>
                   <div class="row-fluid">
-                    <div class="span9">
+                    <div class="span6">
                       <div data-bind="foreach:shippingAddresses">
                         <div class="row-fluid" data-bind="click:$parent.setSelectedShippingAddressID.bind($data,shippingAddressID()),css:{'row-selected':isSelected(),'row-unselected':!isSelected()}" style="border-color:#808080;border-width:2px;">
                           <div class="span4" style="padding-bottom:6px;padding-top:6px;"><span data-bind="text:street"></span></div>
@@ -118,7 +122,7 @@
                 </div>
                 <div data-bind="visible:isShippingAddressFormVisible()" style="display:none;">
                   <div class="row-fluid">
-                    <div class="span8">
+                    <div class="span4">
                       <div class="control-group" data-bind="css:{error:!editedShippingAddress.isStreetValid()}" style="margin-bottom:0px;">
                         <label class="control-label" for="inputStreet">
                           $street
