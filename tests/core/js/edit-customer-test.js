@@ -34,7 +34,6 @@ testStart(
         newCustomerViewModel.submit();
 
       },
-      function () { return newCustomerViewModel.navigationUrl() !== null; },
       {
         navigationUrl: "customers.html"
       },
@@ -54,7 +53,6 @@ testStart(
             editCustomerViewModel.loadPage(queryString);
 
           },
-          function () { return editCustomerViewModel.customerID() !== null; },
           {
             customerID: 1
           },
@@ -81,7 +79,6 @@ testStart(
                 editCustomerViewModel.submit();
 
               },
-              function () { return editCustomerViewModel.navigationUrl() !== null; },
               {
                 navigationUrl: "customers.html"
               },

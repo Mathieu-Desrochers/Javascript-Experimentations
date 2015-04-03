@@ -45,24 +45,32 @@ function testStart(scripts, test) {
 
 }
 
-function testViewModel(testName, viewModel, action, isWaitOver, expectedState, onSuccess) {
+function testViewModel(testName, viewModel, action, expectedState, onSuccess) {
 
   // perform the action
   action();
 
-  // block until the wait is over
+  // checks if the expected state has been reached
+  var hasReachedExpectedState = function () {
+
+    // resolve the knockout observables on the view model
+    var viewModelJS = ko.toJS(viewModel);
+
+    // compare the view model
+    var result = compare(viewModelJS, expectedState);
+    return result;
+
+  };
+
+  // wait until the expected state is reached
   waitFor(
-    isWaitOver,
+    hasReachedExpectedState,
     function () {
 
-      // resolve the knockout observables on the view model
-      var viewModelJS = ko.toJS(viewModel);
+      // fail the test if the expected state has not been reached
+      var success = hasReachedExpectedState();
+      if (success === false) {
 
-      // compare the view model
-      var compareResult = compare(viewModelJS, expectedState);
-      if (compareResult === false) {
-
-        // the view model does not match the expected state
         testFail(testName);
         return;
 

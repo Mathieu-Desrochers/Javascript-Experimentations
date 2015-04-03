@@ -10,7 +10,7 @@ A given test should only call the testStart function.
     phantom.injectJs("./sources/infrastructure/js/test.js");
     testStart(...);
 
-This function will from there on take control of the browser and run the test.  
+This function will from thereon take control of the browser and run the test.  
 The phantomjs process will then be terminated.
 
 __scripts__  
@@ -24,12 +24,16 @@ All the standard scripts are automatically included.
 
 __test__  
 A function that performs the test.  
-It must end by calling either testPass or testFail.  
-This will often occur indirectly though the other functions of this module.
+It usually builds a view model and invokes the testViewModel function
 
     function () {
+
+      // build the SelectCustomer view model
       var selectCustomerViewModel = new SelectCustomerViewModel();
+
+      // load the customers
       testViewModel(...);
+
     }
 
 testViewModel
@@ -39,7 +43,7 @@ Performs an action on a view model and tests its resulting state.
 __name__  
 The name of the test.
 
-    "SelectCustomer"
+    "select-customer"
 
 __viewModel__  
 The tested view model.
@@ -51,16 +55,10 @@ A function that modifies the view model.
 
     function () { selectCustomerViewModel.loadCustomers(); }
 
-__isWaitOver__  
-A function that is polled regularly.  
-It must return true when the action has completed.  
-The testFail function is called automalically if the wait times out.
-
-    function () { return selectCustomerViewModel.customers().length > 0; }
-
 __expectedState__  
-An object against which the view model is compared when the wait is over.  
-The testFail function is called automalically if any property is different.
+The view model is compared sporadically to this object.  
+Once the comparaison returns true, the onSuccess function is called.  
+Should the comparaison still return false after one second, the testFail function is invoked.
 
     {
       customers: [
@@ -72,7 +70,7 @@ The testFail function is called automalically if any property is different.
     }
 
 __onSuccess__  
-A function that is invoked if the view model matches the extected state.  
+A function that is invoked once the view model matches the extected state.  
 It should either continue the test or invoke testPass.
 
     function () { testPass("SelectCustomer"); }
@@ -80,34 +78,30 @@ It should either continue the test or invoke testPass.
 testPass
 --------
 Reports the success of a test.  
-Also invokes the testEnd function.
+Terminates the phantomjs process that is running the test.
 
 __name__  
 The name of the test.
 
-    "SelectCustomer"
+    "select-customer"
 
 __side effect__  
 Prints the result to the console.
 
-    SelectCustomer: passed
+    select-customer: passed
 
 
 testFail
 --------
 Reports the failure of a test.  
-Also invokes the testEnd function.
+Terminates the phantomjs process that is running the test.
 
 __name__  
 The name of the test.
 
-    "SelectCustomer"
+    "select-customer"
 
 __side effect__  
 Prints the result to the console.
 
-    SelectCustomer: failed
-
-testEnd
--------
-Terminates the phantomjs process that is running the test.
+    select-customer: failed

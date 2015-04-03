@@ -33,7 +33,6 @@ testStart(
         customerViewModel.submit();
 
       },
-      function () { return customerViewModel.navigationUrl() !== null; },
       {
         navigationUrl: "customers.html"
       },

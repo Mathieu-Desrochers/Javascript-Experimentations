@@ -36,7 +36,6 @@ testStart(
         customerViewModel.submit();
 
       },
-      function () { return customerViewModel.navigationUrl() !== null; },
       {
         navigationUrl: "customers.html"
       },
@@ -54,7 +53,6 @@ testStart(
             customersViewModel.loadPage();
 
           },
-          function () { return customersViewModel.customers().length > 0; },
           {
             customers : [
               {
@@ -76,7 +74,6 @@ testStart(
                 customersViewModel.deleteCustomer();
 
               },
-              function () { return customersViewModel.selectedCustomerID() === null; },
               {
                 customers : []
               },
