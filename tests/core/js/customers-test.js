@@ -1,52 +1,50 @@
 
 phantom.injectJs("./sources/infrastructure/js/test.js");
 
-testStart(
+// prepare the test
+testPrepare(
   [
     "./sources/core/js/customer.js",
     "./sources/core/js/customers.js",
-    "./sources/core/js/delete-customer.js",
-    "./sources/core/js/get-customers.js",
     "./sources/core/js/new-customer.js"
   ],
   function () {
-
-    var testName = "customers";
 
     // build the Customer view model
     var customerViewModel = customerModule.makeCustomerViewModel();
     customerModule.extendCustomerViewModel(customerViewModel);
 
-    // create a new customer
-    testViewModel(
-      testName,
-      customerViewModel,
-      function () {
+    // build the Customers view model
+    var customersViewModel = customersModule.makeCustomersViewModel();
 
-        customerViewModel.firstName("Alice");
-        customerViewModel.lastName("Alisson");
-        customerViewModel.birthdate("2015-01-01");
+    // run the test
+    testRun(
+      "customers",
+      [
+        // create a new customer
+        testStep(
+          customerViewModel,
+          function () {
 
-        customerViewModel.addShippingAddress();
-        customerViewModel.editedShippingAddress.street("123 Sunny Street");
-        customerViewModel.editedShippingAddress.city("Miami");
-        customerViewModel.editedShippingAddress.state("Florida");
-        customerViewModel.editedShippingAddress.submit();
+            customerViewModel.firstName("Alice");
+            customerViewModel.lastName("Alisson");
+            customerViewModel.birthdate("2015-01-01");
 
-        customerViewModel.submit();
+            customerViewModel.addShippingAddress();
+            customerViewModel.editedShippingAddress.street("123 Sunny Street");
+            customerViewModel.editedShippingAddress.city("Miami");
+            customerViewModel.editedShippingAddress.state("Florida");
+            customerViewModel.editedShippingAddress.submit();
 
-      },
-      {
-        navigationUrl: "customers.html"
-      },
-      function () {
+            customerViewModel.submit();
 
-        // build the Customers view model
-        var customersViewModel = customersModule.makeCustomersViewModel();
+          },
+          {
+            navigationUrl: "customers.html"
+          }),
 
         // load the customers
-        testViewModel(
-          testName,
+        testStep(
           customersViewModel,
           function () {
 
@@ -61,24 +59,20 @@ testStart(
                 lastName: "Alisson"
               }
             ]
-          },
+          }),
+
+        // delete the customer
+        testStep(
+          customersViewModel,
           function () {
 
-            // delete the customer
-            testViewModel(
-              testName,
-              customersViewModel,
-              function () {
+            customersViewModel.setSelectedCustomerID(1);
+            customersViewModel.deleteCustomer();
 
-                customersViewModel.setSelectedCustomerID(1);
-                customersViewModel.deleteCustomer();
+          },
+          {
+            customers : []
+          })
+      ]);
 
-              },
-              {
-                customers : []
-              },
-              function () { testPass(testName); });
-
-          });
-      });
   });

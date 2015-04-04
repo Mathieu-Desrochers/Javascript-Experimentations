@@ -1,5 +1,5 @@
 
-function testStart(scripts, test) {
+function testPrepare(scripts, body) {
 
   // create the test page
   var page = require("webpage").create();
@@ -38,52 +38,75 @@ function testStart(scripts, test) {
       page.injectJs(scripts[index]);
     }
 
-    // run the test
-    page.evaluate(test);
+    // evaluate the test body
+    page.evaluate(body);
 
   });
 
 }
 
-function testViewModel(testName, viewModel, action, expectedState, onSuccess) {
+function testRun(testName, steps) {
 
-  // perform the action
-  action();
+  // check if all the steps have been run
+  if (steps.length === 0) {
+
+    // the test has passed
+    console.log(testName + ": passed");
+    window.callPhantom("exit");
+
+  }
+
+  // get the current step
+  var step = steps[0];
+
+  // prepare a continuation for the next steps
+  var testRunNextSteps = function () {
+
+    // run the next steps
+    var nextSteps = _.rest(steps, 1);
+    testRun(testName, nextSteps);
+
+  };
 
   // checks if the expected state has been reached
   var hasReachedExpectedState = function () {
 
     // resolve the knockout observables on the view model
-    var viewModelJS = ko.toJS(viewModel);
+    var viewModelJS = ko.toJS(step.viewModel);
 
-    // compare the view model
-    var result = compare(viewModelJS, expectedState);
+    // compare the view model to the expected state
+    var result = compare(viewModelJS, step.expectedState);
     return result;
 
   };
 
-  // wait until the expected state is reached
+  // perform the action
+  step.action();
+
+  // wait for the expected state to be reached
   waitFor(
     hasReachedExpectedState,
     function () {
 
-      // fail the test if the expected state has not been reached
+      // fail the test should the expected state
+      // have not been reached
       var success = hasReachedExpectedState();
       if (success === false) {
 
-        testFail(testName);
-        return;
+        console.log(testName + ": failed");
+        window.callPhantom("exit");
 
       }
 
       // continue the test
-      onSuccess();
+      testRunNextSteps();
 
     },
     function () {
 
       // the wait has timed out
-      testFail(testName);
+      console.log(testName + ": failed");
+      window.callPhantom("exit");
 
     },
     10,
@@ -91,16 +114,12 @@ function testViewModel(testName, viewModel, action, expectedState, onSuccess) {
 
 }
 
-function testPass(name) {
-  console.log(name + ": passed");
-  testEnd();
-}
+function testStep(viewModel, action, expectedState) {
 
-function testFail(name) {
-  console.log(name + ": failed");
-  testEnd();
-}
+  return {
+    viewModel: viewModel,
+    action: action,
+    expectedState: expectedState
+  };
 
-function testEnd(test) {
-  window.callPhantom("exit");
 }

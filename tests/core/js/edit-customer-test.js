@@ -1,51 +1,51 @@
 
 phantom.injectJs("./sources/infrastructure/js/test.js");
 
-testStart(
+// prepare the test
+testPrepare(
   [
     "./sources/core/js/customer.js",
-    "./sources/core/js/edit-customer.js",
-    "./sources/core/js/new-customer.js"
+    "./sources/core/js/new-customer.js",
+    "./sources/core/js/edit-customer.js"
   ],
   function () {
-
-    var testName = "edit-customer";
 
     // build the NewCustomer view model
     var newCustomerViewModel = customerModule.makeCustomerViewModel();
     customerModule.extendNewCustomerViewModel(newCustomerViewModel);
 
-    // create a new customer
-    testViewModel(
-      testName,
-      newCustomerViewModel,
-      function () {
+    // build the EditCustomer view model
+    var editCustomerViewModel = customerModule.makeCustomerViewModel();
+    customerModule.extendEditCustomerViewModel(editCustomerViewModel);
 
-        newCustomerViewModel.firstName("Alice");
-        newCustomerViewModel.lastName("Alisson");
-        newCustomerViewModel.birthdate("2015-01-01");
+    // run the test
+    testRun(
+      "edit-customer",
+      [
+        // create a new customer
+        testStep(
+          newCustomerViewModel,
+          function () {
 
-        newCustomerViewModel.addShippingAddress();
-        newCustomerViewModel.editedShippingAddress.street("123 Sunny Street");
-        newCustomerViewModel.editedShippingAddress.city("Miami");
-        newCustomerViewModel.editedShippingAddress.state("Florida");
-        newCustomerViewModel.editedShippingAddress.submit();
+            newCustomerViewModel.firstName("Alice");
+            newCustomerViewModel.lastName("Alisson");
+            newCustomerViewModel.birthdate("2015-01-01");
 
-        newCustomerViewModel.submit();
+            newCustomerViewModel.addShippingAddress();
+            newCustomerViewModel.editedShippingAddress.street("123 Sunny Street");
+            newCustomerViewModel.editedShippingAddress.city("Miami");
+            newCustomerViewModel.editedShippingAddress.state("Florida");
+            newCustomerViewModel.editedShippingAddress.submit();
 
-      },
-      {
-        navigationUrl: "customers.html"
-      },
-      function () {
+            newCustomerViewModel.submit();
 
-        // build the EditCustomer view model
-        var editCustomerViewModel = customerModule.makeCustomerViewModel();
-        customerModule.extendEditCustomerViewModel(editCustomerViewModel);
+          },
+          {
+            navigationUrl: "customers.html"
+          }),
 
         // load the customer
-        testViewModel(
-          testName,
+        testStep(
           editCustomerViewModel,
           function () {
 
@@ -55,35 +55,31 @@ testStart(
           },
           {
             customerID: 1
-          },
+          }),
+
+        // edit the customer
+        testStep(
+          editCustomerViewModel,
           function () {
 
-            // edit the customer
-            testViewModel(
-              testName,
-              editCustomerViewModel,
-              function () {
+            editCustomerViewModel.firstName("Bob");
+            editCustomerViewModel.lastName("Bobson");
+            editCustomerViewModel.birthdate("2015-02-02");
 
-                editCustomerViewModel.firstName("Bob");
-                editCustomerViewModel.lastName("Bobson");
-                editCustomerViewModel.birthdate("2015-02-02");
+            editCustomerViewModel.setSelectedShippingAddressID(1);
 
-                editCustomerViewModel.setSelectedShippingAddressID(1);
+            editCustomerViewModel.modifyShippingAddress();
+            editCustomerViewModel.editedShippingAddress.street("456 Cloudy Boulevard");
+            editCustomerViewModel.editedShippingAddress.city("Seattle");
+            editCustomerViewModel.editedShippingAddress.state("Washington");
+            editCustomerViewModel.editedShippingAddress.submit();
 
-                editCustomerViewModel.modifyShippingAddress();
-                editCustomerViewModel.editedShippingAddress.street("456 Cloudy Boulevard");
-                editCustomerViewModel.editedShippingAddress.city("Seattle");
-                editCustomerViewModel.editedShippingAddress.state("Washington");
-                editCustomerViewModel.editedShippingAddress.submit();
+            editCustomerViewModel.submit();
 
-                editCustomerViewModel.submit();
+          },
+          {
+            navigationUrl: "customers.html"
+          })
+      ]);
 
-              },
-              {
-                navigationUrl: "customers.html"
-              },
-              function () { testPass(testName); });
-
-          });
-      });
   });

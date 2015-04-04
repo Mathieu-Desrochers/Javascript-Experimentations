@@ -5,10 +5,12 @@ Each javascript test should be sent individually to the phantomjs headless brows
 
     phantomjs ./tests/core/js/select-customer-test.js
 
-A given test should only call the testStart function.
+A given test should only call the testPrepare function.
 
     phantom.injectJs("./sources/infrastructure/js/test.js");
-    testStart(...);
+
+    // prepare the test
+    testPrepare(...);
 
 This function will from thereon take control of the browser and run the test.  
 The phantomjs process will then be terminated.
@@ -22,28 +24,44 @@ All the standard scripts are automatically included.
       "./sources/core/js/select-customer.js"
     ]
 
-__test__  
-A function that performs the test.  
-It usually builds a view model and invokes the testViewModel function
+__body__  
+A function which purpose is to build the tested view models.  
+This makes them visible to the testRun function,  
+which it has the responsability to invoke.
 
     function () {
 
       // build the SelectCustomer view model
       var selectCustomerViewModel = new SelectCustomerViewModel();
 
-      // load the customers
-      testViewModel(...);
+      // run the test
+      testRun(...);
 
     }
 
-testViewModel
--------------
-Performs an action on a view model and tests its resulting state.
+testRun
+-------
+Runs a test.
 
-__name__  
+__testName__  
 The name of the test.
 
     "select-customer"
+
+__steps__  
+The sequence of steps making up the test.
+
+    [
+      // load the customers
+      testStep(...),
+
+      // select a customer
+      testStep(...)
+    ]
+
+testStep
+--------
+Declares a test step.
 
 __viewModel__  
 The tested view model.
@@ -53,12 +71,16 @@ The tested view model.
 __action__  
 A function that modifies the view model.
 
-    function () { selectCustomerViewModel.loadCustomers(); }
+    function () {
+
+      selectCustomerViewModel.loadCustomers();
+
+    }
 
 __expectedState__  
 The view model is compared sporadically to this object.  
-Once the comparaison returns true, the onSuccess function is called.  
-Should the comparaison still return false after one second, the testFail function is invoked.
+Once the comparaison returns true, the test continues to the next step.  
+Should the comparaison continue returning false after one second, the test fails.
 
     {
       customers: [
@@ -68,40 +90,3 @@ Should the comparaison still return false after one second, the testFail functio
         }
       ]
     }
-
-__onSuccess__  
-A function that is invoked once the view model matches the extected state.  
-It should either continue the test or invoke testPass.
-
-    function () { testPass("SelectCustomer"); }
-
-testPass
---------
-Reports the success of a test.  
-Terminates the phantomjs process that is running the test.
-
-__name__  
-The name of the test.
-
-    "select-customer"
-
-__side effect__  
-Prints the result to the console.
-
-    select-customer: passed
-
-
-testFail
---------
-Reports the failure of a test.  
-Terminates the phantomjs process that is running the test.
-
-__name__  
-The name of the test.
-
-    "select-customer"
-
-__side effect__  
-Prints the result to the console.
-
-    select-customer: failed
