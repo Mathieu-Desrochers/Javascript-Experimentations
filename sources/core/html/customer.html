@@ -69,20 +69,16 @@
             <div class="span12">
               <fieldset>
                 <h4>$shipping-addresses-list</h4>
-                <div class="row-fluid">
-                  <div class="span9">
-                    <div class="alert alert-error" data-bind="visible:areShippingAddressesAlertsDisplayed" style="margin-bottom:10px;">
-                      <button class="close" data-bind="click:hideShippingAddressesAlerts" type="button">&times;</button>
-                      <div data-bind="visible:isNoSelectedShippingAddressAlertDisplayed">
-                        <strong>$alert-warning</strong> $alert-no-selected-shipping-address
-                      </div>
-                      <div data-bind="visible:isNoShippingAddressesAlertDisplayed">
-                        <strong>$alert-warning</strong> $alert-no-shipping-addresses
-                      </div>
-                      <div data-bind="visible:isTooManyShippingAddressesAlertDisplayed">
-                        <strong>$alert-warning</strong> $alert-too-many-shipping-addresses
-                      </div>
-                    </div>
+                <div class="alert alert-error" data-bind="visible:areShippingAddressesAlertsDisplayed" style="margin-bottom:10px;">
+                  <button class="close" data-bind="click:hideShippingAddressesAlerts" type="button">&times;</button>
+                  <div data-bind="visible:isNoSelectedShippingAddressAlertDisplayed">
+                    <strong>$alert-warning</strong> $alert-no-selected-shipping-address
+                  </div>
+                  <div data-bind="visible:isNoShippingAddressesAlertDisplayed">
+                    <strong>$alert-warning</strong> $alert-no-shipping-addresses
+                  </div>
+                  <div data-bind="visible:isTooManyShippingAddressesAlertDisplayed">
+                    <strong>$alert-warning</strong> $alert-too-many-shipping-addresses
                   </div>
                 </div>
                 <div data-bind="visible:!isShippingAddressFormVisible()">
