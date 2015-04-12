@@ -131,45 +131,6 @@ They could also be created from a button click:
       };
     };
 
-Extending View Models
----------------------
-The same view model could be used by two different pages.  
-A common example would be:
-
-- new-order.html
-- edit-order.html
-
-Both pages could differ only in the way they handle their submission.  
-These differences can be injected in the shared view model through extend functions.
-
-Here would be the content of new-order.js:
-
-    // extends an Order view model
-    orderModule.extendOrderViewModel = function (orderViewModel) {
-
-      var self = orderViewModel;
-
-      // creates a new order
-      self.submit = function () {
-        ...
-      };
-
-    };
-
-And here would be the content of edit-order.js:
-
-    // extends an Order view model
-    orderModule.extendOrderViewModel = function (orderViewModel) {
-
-      var self = orderViewModel;
-
-      // updates an existing order
-      self.submit = function () {
-        ...
-      };
-
-    };
-
 View Model Binding
 ------------------
 Javascript is used directly in the page to bind the view model:
@@ -188,6 +149,51 @@ Javascript is used directly in the page to bind the view model:
       ko.applyBindings(orderViewModel));
 
     </script>
+
+Extending View Models
+---------------------
+The same view model could be used by two different pages.  
+A common example would be:
+
+- new-order.html
+- edit-order.html
+
+Both pages could differ only in the way they handle their submission.  
+These differences can be injected in the shared view model through extend functions.
+
+Here would be the content of new-order.js:
+
+    // extends a NewOrder view model
+    orderModule.extendNewOrderViewModel = function (orderViewModel) {
+
+      var self = orderViewModel;
+
+      // creates a new order
+      self.submit = function () {
+        ...
+      };
+
+    };
+
+    // provide a generic entry point for the page
+    orderModule.extendOrderViewModel = orderModule.extendNewOrderViewModel;
+
+And here would be the content of edit-order.js:
+
+    // extends an EditOrder view model
+    orderModule.extendEditOrderViewModel = function (orderViewModel) {
+
+      var self = orderViewModel;
+
+      // updates an existing order
+      self.submit = function () {
+        ...
+      };
+
+    };
+
+    // provide a generic entry point for the page
+    orderModule.extendOrderViewModel = orderModule.extendEditOrderViewModel;
 
 Extended View Model Binding
 ---------------------------

@@ -1,8 +1,8 @@
 
 var customerModule = customerModule || {};
 
-// extends a Customer view model
-customerModule.extendCustomerViewModel = function (customerViewModel) {
+// extends a NewCustomer view model
+customerModule.extendNewCustomerViewModel = function (customerViewModel) {
 
   var self = customerViewModel;
 
@@ -59,5 +59,5 @@ customerModule.extendCustomerViewModel = function (customerViewModel) {
 
 };
 
-// extends a NewCustomer view model
-customerModule.extendNewCustomerViewModel = customerModule.extendCustomerViewModel;
+// provide a generic entry point for the page
+customerModule.extendCustomerViewModel = customerModule.extendNewCustomerViewModel;

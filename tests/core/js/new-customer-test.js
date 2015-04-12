@@ -9,9 +9,9 @@ testPrepare(
   ],
   function () {
 
-    // build the Customer view model
-    var customerViewModel = customerModule.makeCustomerViewModel();
-    customerModule.extendCustomerViewModel(customerViewModel);
+    // build the NewCustomer view model
+    var newCustomerViewModel = customerModule.makeCustomerViewModel();
+    customerModule.extendNewCustomerViewModel(newCustomerViewModel);
 
     // run the test
     testRun(
@@ -19,20 +19,20 @@ testPrepare(
       [
         // create a new customer
         testStep(
-          customerViewModel,
+          newCustomerViewModel,
           function () {
 
-            customerViewModel.firstName("Alice");
-            customerViewModel.lastName("Alisson");
-            customerViewModel.birthdate("2015-01-01");
+            newCustomerViewModel.firstName("Alice");
+            newCustomerViewModel.lastName("Alisson");
+            newCustomerViewModel.birthdate("2015-01-01");
 
-            customerViewModel.addShippingAddress();
-            customerViewModel.editedShippingAddress.street("123 Sunny Street");
-            customerViewModel.editedShippingAddress.city("Miami");
-            customerViewModel.editedShippingAddress.state("Florida");
-            customerViewModel.editedShippingAddress.submit();
+            newCustomerViewModel.addShippingAddress();
+            newCustomerViewModel.editedShippingAddress.street("123 Sunny Street");
+            newCustomerViewModel.editedShippingAddress.city("Miami");
+            newCustomerViewModel.editedShippingAddress.state("Florida");
+            newCustomerViewModel.editedShippingAddress.submit();
 
-            customerViewModel.submit();
+            newCustomerViewModel.submit();
 
           },
           {
